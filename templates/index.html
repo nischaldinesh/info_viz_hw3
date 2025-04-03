@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HW3: Toward an Outlier Uncertainty Model</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .dataset-section { margin-bottom: 50px; }
+        .algo-category { margin-top: 30px; }
+        .heatmap { margin: 10px; display: inline-block; }
+        .heatmap img { border: 1px solid #ccc; width: 300px; height: auto; }
+        .heatmap-title { text-align: center; margin-top: 5px; }
+    </style>
+</head>
+<body>
+    <h1>HW3: Toward an Outlier Uncertainty Model</h1>
+    {% for ds_name, categories in results.items() %}
+      <div class="dataset-section">
+        <h2>{{ ds_name }} Dataset</h2>
+        {% for category, models in categories.items() %}
+          <div class="algo-category">
+            <h3>{{ category }}</h3>
+            {% for model_name, image in models.items() %}
+              <div class="heatmap">
+                <img src="data:image/png;base64,{{ image }}" alt="{{ model_name }}">
+                <div class="heatmap-title">{{ model_name }}</div>
+              </div>
+            {% endfor %}
+          </div>
+        {% endfor %}
+      </div>
+    {% endfor %}
+</body>
+</html>
