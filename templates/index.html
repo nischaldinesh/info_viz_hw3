@@ -1,33 +1,134 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>HW3: Toward an Outlier Uncertainty Model</title>
+    <title>HW3: Toward an Outlier Uncertainty Model - A Comparative Analysis</title>
     <style>
-        body { font-family: Arial, sans-serif; }
-        .dataset-section { margin-bottom: 50px; }
-        .algo-category { margin-top: 30px; }
-        .heatmap { margin: 10px; display: inline-block; }
-        .heatmap img { border: 1px solid #ccc; width: 300px; height: auto; }
-        .heatmap-title { text-align: center; margin-top: 5px; }
+        body {
+            font-family: Arial, sans-serif;
+            background: #f9f9f9;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .controls {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .controls form {
+            display: inline-block;
+            text-align: left;
+            background: #fff;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .controls label {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .controls select,
+        .controls input[type="radio"] {
+            margin-right: 10px;
+            padding: 5px;
+            font-size: 1em;
+        }
+        .controls input[type="submit"] {
+            background: #007BFF;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            font-size: 1em;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .controls input[type="submit"]:hover {
+            background: #0056b3;
+        }
+        .categories-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-around;
+        }
+        .category {
+            flex: 1;
+            margin: 10px;
+            text-align: center;
+        }
+        .category-header {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+        }
+        .heatmap {
+            margin-bottom: 20px;
+        }
+        .heatmap img {
+            border: 1px solid #ccc;
+            width: 300px;
+            height: auto;
+        }
+        .heatmap-title {
+            margin-top: 5px;
+        }
+        .colorbar-container {
+            text-align: center;
+            margin: 10px;
+        }
+        .colorbar-container img {
+            width: 100px; /* Adjust as needed */
+            height: auto;
+        }
     </style>
 </head>
 <body>
-    <h1>HW3: Toward an Outlier Uncertainty Model</h1>
-    {% for ds_name, categories in results.items() %}
-      <div class="dataset-section">
-        <h2>{{ ds_name }} Dataset</h2>
-        {% for category, models in categories.items() %}
-          <div class="algo-category">
-            <h3>{{ category }}</h3>
-            {% for model_name, image in models.items() %}
+    <h1>HW3: Toward an Outlier Uncertainty Model - A Comparative Analysis</h1>
+    <form method="GET" action="/" class="controls">
+        <label for="dataset">Select Dataset:</label>
+        <select name="dataset" id="dataset">
+            <option value="Blobs" {% if selected_dataset=='Blobs' %}selected{% endif %}>Blobs</option>
+            <option value="Moons" {% if selected_dataset=='Moons' %}selected{% endif %}>Moons</option>
+            <option value="Circles" {% if selected_dataset=='Circles' %}selected{% endif %}>Circles</option>
+        </select>
+        <br><br>
+        <label>Select Colormap:</label>
+        <label>
+            <input type="radio" name="cmap" value="viridis" {% if selected_cmap=='viridis' %}checked{% endif %}> Viridis
+        </label>
+        <label>
+            <input type="radio" name="cmap" value="plasma" {% if selected_cmap=='plasma' %}checked{% endif %}> Plasma
+        </label>
+        <label>
+            <input type="radio" name="cmap" value="inferno" {% if selected_cmap=='inferno' %}checked{% endif %}> Inferno
+        </label>
+        <br><br>
+        <input type="submit" value="Update Heatmaps">
+    </form>
+
+    {% if results and results[selected_dataset] %}
+      <div class="categories-container">
+        {% for category, models in results[selected_dataset].items() %}
+          <div class="category">
+            <div class="category-header">{{ category }}</div>
+            {% for model in models %}
               <div class="heatmap">
-                <img src="data:image/png;base64,{{ image }}" alt="{{ model_name }}">
-                <div class="heatmap-title">{{ model_name }}</div>
+                <img src="data:image/png;base64,{{ model.image }}" alt="{{ model.name }}">
+                <div class="heatmap-title">{{ model.name }}</div>
               </div>
             {% endfor %}
           </div>
         {% endfor %}
+        <div class="category">
+            <div class="category-header">Colorbar</div>
+            <div class="colorbar-container">
+                <img src="data:image/png;base64,{{ colorbar_image }}" alt="Colorbar">
+            </div>
+        </div>
       </div>
-    {% endfor %}
+    {% endif %}
 </body>
 </html>
