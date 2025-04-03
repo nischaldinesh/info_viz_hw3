@@ -1,12 +1,13 @@
-Overview: This project is a web-based visualization tool for comparing various outlier detection algorithms using heatmaps. The application generates heatmaps for datasets such as Blobs, Moons, and Circles using multiple algorithms. The web interface allows users to select a dataset and a colormap via a drop-down menu and radio buttons, respectively. A common colorbar is displayed alongside the heatmaps.
+## Overview
+This project is a web-based visualization tool for comparing various outlier detection algorithms using heatmaps. The application generates heatmaps for datasets such as Blobs, Moons, and Circles using multiple algorithms. The web interface allows users to select a dataset and a colormap via a drop-down menu and radio buttons, respectively. A common colorbar is displayed alongside the heatmaps.
 
-Tech Stack
+## Tech Stack
 - Python 3
 - Flask: Web framework used to build the web application.
 - Matplotlib: Plotting library used to generate heatmaps and standalone colorbars.
 - scikit-learn: Provides functions to generate datasets (Blobs, Moons, Circles) and perform various statistical operations.
 
-File Interconnection
+## File Interconnection
 - data_preparation.py: Contains functions get_blobs(), get_moons(), and get_circles() that generate synthetic datasets using scikit-learn. These datasets are scaled using StandardScaler and serve as input data for the heatmap visualizations.
 
 - algorithms.py: Implements functions that create and fit various outlier detection models from PyOD and scikit-learn on a given dataset.
